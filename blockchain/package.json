@@ -1,0 +1,24 @@
+{
+  "name": "blockchain",
+  "version": "1.0.0",
+  "description": "",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "~1.18.2",
+    "express": "~4.16.1",
+    "firebase": "^4.11.0",
+    "firebase-admin": "^5.11.0",
+    "ipfs": "^0.28.2",
+    "morgan": "~1.9.0",
+    "web3": "^0.20.6"
+  }
+}
