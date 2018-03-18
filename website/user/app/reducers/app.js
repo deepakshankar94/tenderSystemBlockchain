@@ -14,7 +14,6 @@
  **/
 
 import { combineReducers } from 'redux-immutable';
-import user from './user/user';
 import skin from './skin/skin';
 import users from './users/users';
 import vendors from './vendors/vendors';
@@ -26,7 +25,6 @@ import governments from './governments/governments';
 import authorizedVerifiers from './authorizedVerifiers/authorizedVerifiers';
 
 const app = combineReducers({
-	user,
 	skin,
 	users,
 	vendors,

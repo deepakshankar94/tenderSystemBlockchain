@@ -9,18 +9,17 @@ const fetchUsers = () => (dispatch) => {
 			type: 'FETCH_USERS_STATE',
 			payload: prepareHashedObjectsForArraysInJSON(data.val(), 'id')
 		});
-	});
-};
-
-const subscribeForUsers = () => (dispatch) => {
-	firebase.database().ref('tenders').on('value', (data) =>	{
-		const stateData = store.getState().toJS();
-		if (!(_.isEqual(stateData.tenders, data.val()))) {
-			dispatch({
-				type: 'UPDATE_USERS_STATE',
-				payload: prepareHashedObjectsForArraysInJSON(data.val(), 'id')
-			});
-		}
+	})
+	.then(() => {
+		firebase.database().ref('users').on('value', (data) =>	{
+			const stateData = store.getState().toJS();
+			if (!(_.isEqual(stateData.tenders, data.val()))) {
+				dispatch({
+					type: 'UPDATE_USERS_STATE',
+					payload: prepareHashedObjectsForArraysInJSON(data.val(), 'id')
+				});
+			}
+		});
 	});
 };
 
@@ -34,6 +33,5 @@ const addOrUpdateTender = (key, value) => ({
 
 export {
 	fetchUsers,
-	subscribeForUsers,
 	addOrUpdateTender
 };

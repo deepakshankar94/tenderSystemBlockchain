@@ -16,17 +16,15 @@
  * enter handler for / or default route
  */
 import store from 'store/store';
-import { fetchTenders, subscribeForTenders } from 'actions/tenders';
-import { fetchUsers, subscribeForUsers } from 'actions/users';
-// import { initializeFirebase } from 'util/firebase';
+import { fetchTenders } from 'actions/tenders';
+import { fetchUsers } from 'actions/users';
+import { initFirebaseDB } from 'util/firebase';
 
 const onEnterDefaultTenderAdminRoute = (routeInfo) => {
 	console.log(routeInfo);
-	// initializeFirebase();
+	initFirebaseDB();
 	store.dispatch(fetchTenders());
-	store.dispatch(subscribeForTenders());
 	store.dispatch(fetchUsers());
-	store.dispatch(subscribeForUsers());
 };
 
 const onEnterDefaultTenderUserRoute = (routeInfo) => {
