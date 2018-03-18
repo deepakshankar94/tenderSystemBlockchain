@@ -18,6 +18,8 @@ import NotFound from 'components/notFound';
 import AdminModeContainer from 'containers/AdminModeContainer';
 import UserModeContainer from 'containers/UserModeContainer';
 import PublicModeContainer from 'containers/PublicModeContainer';
+import TenderContainer from 'containers/TenderContainer';
+import TenderCreateContainer from 'containers/TenderCreateContainer';
 import { onEnterDefaultTenderAdminRoute, onEnterDefaultTenderUserRoute, onEnterDefaultTenderPublicRoute } from './routeHandlers';
 /**
  * [appRoutes application routes]
@@ -36,6 +38,10 @@ const appRoutes = (
 			<Route path=":id" component={UserModeContainer} onEnter={onEnterDefaultTenderUserRoute} />
 		</Route>
 		<Route path="public" component={PublicModeContainer} onEnter={onEnterDefaultTenderPublicRoute} />
+		<Route path="tenders">
+			<Route path="create" component={TenderCreateContainer} />
+			<Route path=":id" component={TenderContainer} />
+		</Route>
 		<Route path="*" component={NotFound} />
 	</Route>
 );
