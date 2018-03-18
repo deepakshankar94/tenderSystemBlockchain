@@ -73,8 +73,19 @@ const onEnterDefaultTenderPublicRoute = (routeInfo) => {
 	store.dispatch(fetchTenders());
 };
 
+const onEnterDefaultTenderCreateRoute = (routeInfo) => {
+	console.log(routeInfo);
+	initFirebaseDB();
+	Promise.all([
+		fetchVendors(store.dispatch),
+		fetchUsers(store.dispatch),
+		fetchTenders(store.dispatch)
+	]);
+};
+
 export {
 	onEnterDefaultTenderAdminRoute,
 	onEnterDefaultTenderUserRoute,
-	onEnterDefaultTenderPublicRoute
+	onEnterDefaultTenderPublicRoute,
+	onEnterDefaultTenderCreateRoute
 };

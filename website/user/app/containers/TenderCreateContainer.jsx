@@ -17,12 +17,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { moveToDashboardScreen } from 'actions/init';
 import TenderCreateComponent from 'components/tenderCreateComponent';
+import { addTender } from 'actions/tenders';
 
 class TenderCreateContainer extends React.Component {
 	render() {
 		return (
 			<div className="container">
-				<TenderCreateComponent />
+				<TenderCreateComponent {...this.props} />
 			</div>
 		);
 	}
@@ -37,6 +38,10 @@ const mapStateToProps = (state) => ({ ...(state.toJS()) });
 const mapDispatchToProps = (dispatch) => ({
 	moveToDashboard: () => {
 		dispatch(moveToDashboardScreen());
+	},
+
+	submitTender: (tenderData) => {
+		dispatch(addTender(tenderData));
 	}
 });
 

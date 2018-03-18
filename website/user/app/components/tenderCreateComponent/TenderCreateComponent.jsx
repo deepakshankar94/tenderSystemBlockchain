@@ -15,6 +15,7 @@
 import React from 'react';
 import CSSModules from 'react-css-modules';
 import Header from 'components/header';
+import PropTypes from 'prop-types';
 
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -47,8 +48,8 @@ class TenderCreateComponent extends React.Component {
 				{
 					id: 0,
 					name: '',
-					minVal: 0,
-					maxVal: 0,
+					minValue: 0,
+					maxValue: 0,
 					type: 'number',
 					minOrMax: 1
 				}
@@ -68,10 +69,13 @@ class TenderCreateComponent extends React.Component {
 		});
 	}
 
-	onTenderSubmit = (event) => {
+	onSubmitTender = (event) => {
 		event.preventDefault();
 		console.log('Form submitted');
 		console.log(this.state);
+		console.log(this.props);
+
+		this.props.submitTender(this.state);
 	}
 
 	onChangeCriteriaName = (idx) => (event) => {
@@ -86,7 +90,7 @@ class TenderCreateComponent extends React.Component {
 	onChangeCriteriaMinVal = (idx) => (event) => {
 		const newCriterias = this.state.criterias.map((criteria, sidx) => {
 			if (idx !== sidx) return criteria;
-			return { ...criteria, minVal: +event.target.value };
+			return { ...criteria, minValue: +event.target.value };
 		});
 
 		this.setState({ criterias: newCriterias });
@@ -95,7 +99,7 @@ class TenderCreateComponent extends React.Component {
 	onChangeCriteriaMaxVal = (idx) => (event) => {
 		const newCriterias = this.state.criterias.map((criteria, sidx) => {
 			if (idx !== sidx) return criteria;
-			return { ...criteria, maxVal: +event.target.value };
+			return { ...criteria, maxValue: +event.target.value };
 		});
 
 		this.setState({ criterias: newCriterias });
@@ -122,7 +126,7 @@ class TenderCreateComponent extends React.Component {
 	onChangeCriteriaStartDate = (idx) => (event, date) => {
 		const newCriterias = this.state.criterias.map((criteria, sidx) => {
 			if (idx !== sidx) return criteria;
-			return { ...criteria, minVal: +new Date(date).getTime() };
+			return { ...criteria, minValue: +new Date(date).getTime() };
 		});
 
 		this.setState({ criterias: newCriterias });
@@ -132,7 +136,7 @@ class TenderCreateComponent extends React.Component {
 		console.log(idx, event, date);
 		const newCriterias = this.state.criterias.map((criteria, sidx) => {
 			if (idx !== sidx) return criteria;
-			return { ...criteria, maxVal: +new Date(date).getTime() };
+			return { ...criteria, maxValue: +new Date(date).getTime() };
 		});
 
 		this.setState({ criterias: newCriterias });
@@ -148,8 +152,8 @@ class TenderCreateComponent extends React.Component {
 			{
 				id: newId,
 				name: '',
-				minVal: 0,
-				maxVal: 0,
+				minValue: 0,
+				maxValue: 0,
 				type: 'number',
 				minOrMax: -1
 			}
@@ -186,14 +190,14 @@ class TenderCreateComponent extends React.Component {
 								<TextField
 									floatingLabelText="Min value"
 									hintText="Enter min value"
-									value={this.state.criterias[idx].minVal}
+									value={this.state.criterias[idx].minValue}
 									onChange={this.onChangeCriteriaMinVal(idx)}
 									style={textFieldStyle}
 								/>
 								<TextField
 									floatingLabelText="Max value"
 									hintText="Enter max value"
-									value={this.state.criterias[idx].maxVal}
+									value={this.state.criterias[idx].maxValue}
 									onChange={this.onChangeCriteriaMaxVal(idx)}
 									style={textFieldStyle}
 								/>
@@ -244,7 +248,7 @@ class TenderCreateComponent extends React.Component {
 		return (
 			<div styleName="tendercreatecomponent-component">
 				<Header title="Create Tender" />
-				<form className="tenderForm" styleName="tenderForm" onSubmit={this.onTenderSubmit}>
+				<form className="tenderForm" styleName="tenderForm" onSubmit={this.onSubmitTender}>
 					<TextField
 						id="name"
 						floatingLabelText="Name of the tender"
@@ -282,7 +286,9 @@ class TenderCreateComponent extends React.Component {
 	}
 }
 
-TenderCreateComponent.propTypes = {};
+TenderCreateComponent.propTypes = {
+	submitTender: PropTypes.func.isRequired
+};
 TenderCreateComponent.defaultProps = {};
 
 export default TenderCreateComponent;

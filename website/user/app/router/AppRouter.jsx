@@ -20,7 +20,7 @@ import UserModeContainer from 'containers/UserModeContainer';
 import PublicModeContainer from 'containers/PublicModeContainer';
 import TenderContainer from 'containers/TenderContainer';
 import TenderCreateContainer from 'containers/TenderCreateContainer';
-import { onEnterDefaultTenderAdminRoute, onEnterDefaultTenderUserRoute, onEnterDefaultTenderPublicRoute } from './routeHandlers';
+import { onEnterDefaultTenderAdminRoute, onEnterDefaultTenderUserRoute, onEnterDefaultTenderPublicRoute, onEnterDefaultTenderCreateRoute } from './routeHandlers';
 /**
  * [appRoutes application routes]
  * default route displays loading page
@@ -39,7 +39,7 @@ const appRoutes = (
 		</Route>
 		<Route path="public" component={PublicModeContainer} onEnter={onEnterDefaultTenderPublicRoute} />
 		<Route path="tenders">
-			<Route path="create" component={TenderCreateContainer} />
+			<Route path="create" component={TenderCreateContainer} onEnter={onEnterDefaultTenderCreateRoute} />
 			<Route path=":id" component={TenderContainer} />
 		</Route>
 		<Route path="*" component={NotFound} />
