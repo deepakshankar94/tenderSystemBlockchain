@@ -22,8 +22,18 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentRemove from 'material-ui/svg-icons/content/remove';
+import DatePicker from 'material-ui/DatePicker';
 
 import styles from './tendercreatecomponent.sass';
+
+const textFieldStyle = {
+	width: '175px',
+	marginLeft: '30px'
+};
+
+const inputElementStyle = {
+	marginLeft: '30px'
+};
 
 @CSSModules(styles, { allowMultiple: true })
 class TenderCreateComponent extends React.Component {
@@ -100,6 +110,34 @@ class TenderCreateComponent extends React.Component {
 		this.setState({ criterias: newCriterias });
 	}
 
+	onChangeCriteriaType = (idx) => (event, index, value) => {
+		const newCriterias = this.state.criterias.map((criteria, sidx) => {
+			if (idx !== sidx) return criteria;
+			return { ...criteria, type: value === true ? 'number' : 'date' };
+		});
+
+		this.setState({ criterias: newCriterias });
+	}
+
+	onChangeCriteriaStartDate = (idx) => (event, date) => {
+		const newCriterias = this.state.criterias.map((criteria, sidx) => {
+			if (idx !== sidx) return criteria;
+			return { ...criteria, minVal: +new Date(date).getTime() };
+		});
+
+		this.setState({ criterias: newCriterias });
+	}
+
+	onChangeCriteriaEndDate = (idx) => (event, date) => {
+		console.log(idx, event, date);
+		const newCriterias = this.state.criterias.map((criteria, sidx) => {
+			if (idx !== sidx) return criteria;
+			return { ...criteria, maxVal: +new Date(date).getTime() };
+		});
+
+		this.setState({ criterias: newCriterias });
+	}
+
 	onRemoveCriteria = (idx) => () => {
 		this.setState({ criterias: this.state.criterias.filter((s, sidx) => idx !== sidx) });
 	}
@@ -121,7 +159,8 @@ class TenderCreateComponent extends React.Component {
 	renderCriteria = () => {
 		console.log('Displaying criterias');
 		return this.state.criterias.map((criteria, idx) => {
-			console.log(criteria, idx);
+			const isNumber = this.state.criterias[idx].type === 'number';
+			console.log(criteria, idx, isNumber);
 			return (
 				<div className="criteria" styleName="criteria">
 					<TextField
@@ -129,29 +168,71 @@ class TenderCreateComponent extends React.Component {
 						hintText="Enter name of the criteria"
 						value={this.state.criterias[idx].name}
 						onChange={this.onChangeCriteriaName(idx)}
+						style={inputElementStyle}
 					/>
-					<TextField
-						floatingLabelText="Min value"
-						hintText="Enter min value"
-						value={this.state.criterias[idx].minVal}
-						onChange={this.onChangeCriteriaMinVal(idx)}
-					/>
-					<TextField
-						floatingLabelText="Max value"
-						hintText="Enter max value"
-						value={this.state.criterias[idx].maxVal}
-						onChange={this.onChangeCriteriaMaxVal(idx)}
-					/>
+					<SelectField
+						floatingLabelText="Data Type"
+						value={this.state.criterias[idx].type === 'number'}
+						onChange={this.onChangeCriteriaType(idx)}
+						style={textFieldStyle}
+						style={inputElementStyle}
+					>
+						<MenuItem value={false} primaryText="date" />
+						<MenuItem value primaryText="number" />
+					</SelectField>
+					{
+						isNumber ? (
+							<div>
+								<TextField
+									floatingLabelText="Min value"
+									hintText="Enter min value"
+									value={this.state.criterias[idx].minVal}
+									onChange={this.onChangeCriteriaMinVal(idx)}
+									style={textFieldStyle}
+								/>
+								<TextField
+									floatingLabelText="Max value"
+									hintText="Enter max value"
+									value={this.state.criterias[idx].maxVal}
+									onChange={this.onChangeCriteriaMaxVal(idx)}
+									style={textFieldStyle}
+								/>
+							</div>
+
+						) : (
+							<div style={{ display: 'flex' }}>
+								<DatePicker
+									name="startDate"
+									hintText="Start date"
+									textFieldStyle={textFieldStyle}
+									style={textFieldStyle}
+									onChange={this.onChangeCriteriaStartDate(idx)}
+								/>
+								<DatePicker
+									name="endDate"
+									hintText="End date"
+									textFieldStyle={textFieldStyle}
+									style={textFieldStyle}
+									onChange={this.onChangeCriteriaEndDate(idx)}
+								/>
+							</div>
+						)
+					}
 					<SelectField
 						floatingLabelText="Maximize or Minimize?"
 						value={this.state.criterias[idx].minOrMax === 1}
 						onChange={this.onChangeCriteriaMinOrMax(idx)}
+						style={textFieldStyle}
 					>
 						<MenuItem value={null} primaryText="" />
 						<MenuItem value={false} primaryText="Minimize" />
 						<MenuItem value primaryText="Maximize" />
 					</SelectField>
-					<FloatingActionButton mini onClick={this.onRemoveCriteria(idx)}>
+					<FloatingActionButton
+						mini
+						onClick={this.onRemoveCriteria(idx)}
+						style={inputElementStyle}
+					>
 						<ContentRemove />
 					</FloatingActionButton>
 				</div>
