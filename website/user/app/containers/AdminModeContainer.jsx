@@ -15,14 +15,15 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import Introduction from 'components/introduction';
+import AdminModeComponent from 'components/adminModeComponent';
 import { moveToDashboardScreen } from 'actions/init';
+import { updateRoute } from	'util';
 
 class AdminModeContainer extends React.Component {
 	render() {
 		return (
 			<div className="container">
-				<Introduction {...this.props} />
+				<AdminModeComponent {...this.props} />
 			</div>
 		);
 	}
@@ -37,6 +38,10 @@ const mapStateToProps = (state) => ({ ...(state.toJS()) });
 const mapDispatchToProps = (dispatch) => ({
 	moveToDashboard: () => {
 		dispatch(moveToDashboardScreen());
+	},
+
+	updateRouteOnTenderCardClick(routeToRedirect) {
+		updateRoute(routeToRedirect);
 	}
 });
 
