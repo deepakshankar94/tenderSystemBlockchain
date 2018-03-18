@@ -1,0 +1,12 @@
+{
+  "generator-knolgen-react": {
+    "appName": "tenderWebapp",
+    "authorName": "dharmik",
+    "style": "sass",
+    "cssmodules": true,
+    "postcss": true,
+    "backend": "none",
+    "frontEndBasePath": "user",
+    "generatedWithVersion": 4
+  }
+}
