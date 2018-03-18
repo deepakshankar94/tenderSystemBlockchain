@@ -41,7 +41,7 @@ const onEnterDefaultTenderAdminRoute = (routeInfo) => {
 					id: 0,
 					name: 'Budget',
 					minOrMax: 1,
-					minVal: 0,
+					minValue: 0,
 					maxValue: 1000,
 					type: 'number'
 				},
@@ -49,13 +49,13 @@ const onEnterDefaultTenderAdminRoute = (routeInfo) => {
 					id: 1,
 					name: 'Completion date',
 					minOrMax: 0,
-					minVal: 1553020200,
+					minValue: 1553020200,
 					maxValue: 1560969000,
 					type: 'number'
 				}
 			}
 		}));
-		store.dispatch(applyForTender(1, 0, {
+		store.dispatch(applyForTender(1, '-L7uOFJ9aHTNTCtg63px', {
 			0: 500,
 			1: 1553020100
 		}));
