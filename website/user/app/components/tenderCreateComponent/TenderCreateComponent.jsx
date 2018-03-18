@@ -52,9 +52,16 @@ class TenderCreateComponent extends React.Component {
 		});
 	}
 
+	onChangeDescription = (event) => {
+		this.setState({
+			description: event.target.value
+		});
+	}
+
 	onTenderSubmit = (event) => {
 		event.preventDefault();
 		console.log('Form submitted');
+		console.log(this.state);
 	}
 
 	onChangeCriteriaName = (idx) => (event) => {
@@ -84,11 +91,10 @@ class TenderCreateComponent extends React.Component {
 		this.setState({ criterias: newCriterias });
 	}
 
-	onChangeCriteriaMinOrMax = (idx) => (event) => {
-		console.log(idx, event.target.key);
+	onChangeCriteriaMinOrMax = (idx) => (event, index, value) => {
 		const newCriterias = this.state.criterias.map((criteria, sidx) => {
 			if (idx !== sidx) return criteria;
-			return { ...criteria, minOrMax: event.target.key === true ? 1 : -1 };
+			return { ...criteria, minOrMax: value === true ? 1 : -1 };
 		});
 
 		this.setState({ criterias: newCriterias });
@@ -172,6 +178,8 @@ class TenderCreateComponent extends React.Component {
 						multiLine
 						rows={4}
 						rowsMax={4}
+						value={this.state.description}
+						onChange={this.onChangeDescription}
 					/>
 					<div styleName="criteria-group">
 						{this.renderCriteria()}
