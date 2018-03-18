@@ -1,6 +1,7 @@
 import firebase from 'firebase';
 import * as _ from 'lodash';
 import store from 'store/store';
+import { prepareHashedObjectsForArraysInJSON } from 'util/jsonFormatter';
 
 const firebaseConfig = {
 	apiKey: 'AIzaSyA5tUpUL4kEY00lqNxflllyjD8acAotzqc',
@@ -10,14 +11,13 @@ const firebaseConfig = {
 	storageBucket: '',
 	messagingSenderId: '488105138922'
 };
-
 firebase.initializeApp(firebaseConfig);
 
 const fetchTenders = () => (dispatch) => {
 	firebase.database().ref('tenders').once('value').then((data) => {
 		dispatch({
 			type: 'FETCH_TENDERS_STATE',
-			payload: data.val()
+			payload: prepareHashedObjectsForArraysInJSON(data.val(), 'id')
 		});
 	});
 };
@@ -28,7 +28,7 @@ const subscribeForTenders = () => (dispatch) => {
 		if (!(_.isEqual(stateData.tenders, data.val()))) {
 			dispatch({
 				type: 'UPDATE_TENDERS_STATE',
-				payload: data.val()
+				payload: prepareHashedObjectsForArraysInJSON(data.val(), 'id')
 			});
 		}
 	});
