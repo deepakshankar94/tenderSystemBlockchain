@@ -3,33 +3,33 @@ import * as _ from 'lodash';
 import store from 'store/store';
 import { prepareHashedObjectsForArraysInJSON } from 'util/jsonFormatter';
 
-const fetchTenders = () => (dispatch) => {
-	firebase.database().ref('tenders').once('value').then((data) => {
-		dispatch({
-			type: 'FETCH_TENDERS_STATE',
-			payload: prepareHashedObjectsForArraysInJSON(data.val(), 'id')
-		});
-	})
-	.then(() => {
-		firebase.database().ref('tenders').on('value', (data) =>	{
-			const stateData = store.getState().toJS();
-			if (!(_.isEqual(stateData.tenders, data.val()))) {
-				dispatch({
-					type: 'UPDATE_TENDERS_STATE',
-					payload: prepareHashedObjectsForArraysInJSON(data.val(), 'id')
-				});
-			}
-		});
+const fetchTenders = (dispatch) => firebase.database().ref('tenders').once('value').then((data) => {
+	dispatch({
+		type: 'FETCH_TENDERS_STATE',
+		payload: prepareHashedObjectsForArraysInJSON(data.val(), 'id')
 	});
-};
+})
+.then(() => {
+	firebase.database().ref('tenders').on('value', (data) =>	{
+		const stateData = store.getState().toJS();
+		if (!(_.isEqual(stateData.tenders, data.val()))) {
+			dispatch({
+				type: 'UPDATE_TENDERS_STATE',
+				payload: prepareHashedObjectsForArraysInJSON(data.val(), 'id')
+			});
+		}
+	});
+});
 
 const addTender = (value) => (dispatch) => {
 	console.log('add the tender action creator');
-	const dbRef = firebase.database().ref('tenders');
+	let dbRef = firebase.database().ref('tenders');
 	const key = dbRef.push().key;
 	const valueCopy = JSON.parse(JSON.stringify(value));
 	valueCopy.id = key;
-	dbRef.push(valueCopy, () => {
+	valueCopy.name += `_${key}`;
+	dbRef = firebase.database().ref(`tenders/${key}`);
+	dbRef.set(valueCopy, () => {
 		dispatch({
 			type: 'ADD_OR_UPDATE_TENDER',
 			payload: {
@@ -38,7 +38,6 @@ const addTender = (value) => (dispatch) => {
 			}
 		});
 	});
-
 };
 
 const updateTender = (key, value) => (dispatch) => {
@@ -69,9 +68,25 @@ const deleteTender = (key) => (dispatch) => {
 	});
 };
 
+const addVendorSubmission = (tenderId, vendorId, value) => (dispatch) => {
+	const dbRef = firebase.database().ref(`tenders/${tenderId}/vendors`);
+	const key = dbRef.push().key;
+	const valueCopy = JSON.parse(JSON.stringify(value));
+	valueCopy.id = key;
+	dbRef.push(valueCopy, () => {
+		dispatch({
+			type: 'ADD_VENDOR_SUBMISSION',
+			payload: {
+				value
+			}
+		});
+	});
+};
+
 export {
 	fetchTenders,
 	addTender,
 	updateTender,
-	deleteTender
+	deleteTender,
+	addVendorSubmission
 };

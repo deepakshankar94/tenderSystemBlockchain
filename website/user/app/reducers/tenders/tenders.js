@@ -36,6 +36,22 @@ const tenders = (state = initialState, action = {}) => {
 		case 'DELETE_TENDER':
 			delete stateCopy[action.payload.key];
 			return stateCopy;
+		case 'ADD_VENDOR_SUBMISSION':
+			console.log('tenders are');
+			console.log(stateCopy);
+			window.stateCopy = stateCopy;
+			const tenderId = action.payload.tenderId;
+			const userId = action.payload.userId;
+			console.log(Object.prototype.hasOwnProperty.call(stateCopy, tenderId));
+			if (!Object.prototype.hasOwnProperty.call(stateCopy, tenderId)) {
+				console.log(`tender with id ${tenderId} is not present`);
+				stateCopy[tenderId] = {};
+			}
+			if (!Object.prototype.hasOwnProperty.call(stateCopy[tenderId], 'vendors'))	{
+				stateCopy[tenderId].vendors = {};
+			}
+			stateCopy[tenderId].vendors[userId] = action.payload;
+			return stateCopy;
 		default:
 			// return default state
 			return state;

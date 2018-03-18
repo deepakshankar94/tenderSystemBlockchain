@@ -3,13 +3,12 @@ import * as _ from 'lodash';
 import store from 'store/store';
 import { prepareHashedObjectsForArraysInJSON } from 'util/jsonFormatter';
 
-const fetchUsers = () => (dispatch) => {
-	firebase.database().ref('users').once('value').then((data) => {
-		dispatch({
-			type: 'FETCH_USERS_STATE',
-			payload: prepareHashedObjectsForArraysInJSON(data.val(), 'id')
-		});
-	})
+const fetchUsers = (dispatch) => firebase.database().ref('users').once('value').then((data) => {
+	dispatch({
+		type: 'FETCH_USERS_STATE',
+		payload: prepareHashedObjectsForArraysInJSON(data.val(), 'id')
+	});
+})
 	.then(() => {
 		firebase.database().ref('users').on('value', (data) =>	{
 			const stateData = store.getState().toJS();
@@ -21,14 +20,14 @@ const fetchUsers = () => (dispatch) => {
 			}
 		});
 	});
-};
 
 const addUser = (value) => (dispatch) => {
 	console.log('add the user action creator');
-	const dbRef = firebase.database().ref('users');
+	let dbRef = firebase.database().ref('users');
 	const key = dbRef.push().key;
 	const valueCopy = JSON.parse(JSON.stringify(value));
 	valueCopy.id = key;
+	dbRef = firebase.database().ref(`users/${key}`);
 	dbRef.push(valueCopy, () => {
 		dispatch({
 			type: 'ADD_OR_UPDATE_USER',
