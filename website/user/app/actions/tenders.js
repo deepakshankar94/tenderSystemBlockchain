@@ -3,16 +3,6 @@ import * as _ from 'lodash';
 import store from 'store/store';
 import { prepareHashedObjectsForArraysInJSON } from 'util/jsonFormatter';
 
-// const firebaseConfig = {
-// 	apiKey: 'AIzaSyA5tUpUL4kEY00lqNxflllyjD8acAotzqc',
-// 	authDomain: 'tender-management-app.firebaseapp.com',
-// 	databaseURL: 'https://tender-management-app.firebaseio.com',
-// 	projectId: 'tender-management-app',
-// 	storageBucket: '',
-// 	messagingSenderId: '488105138922'
-// };
-// firebase.initializeApp(firebaseConfig);
-
 const fetchTenders = () => (dispatch) => {
 	firebase.database().ref('tenders').once('value').then((data) => {
 		dispatch({
@@ -33,15 +23,55 @@ const fetchTenders = () => (dispatch) => {
 	});
 };
 
-const addOrUpdateTender = (key, value) => ({
-	type: 'ADD_OR_UPDATE_TENDER',
-	payload: {
-		key,
-		value
-	}
-});
+const addTender = (value) => (dispatch) => {
+	console.log('add the tender action creator');
+	const dbRef = firebase.database().ref('tenders');
+	const key = dbRef.push().key;
+	const valueCopy = JSON.parse(JSON.stringify(value));
+	valueCopy.id = key;
+	dbRef.push(valueCopy, () => {
+		dispatch({
+			type: 'ADD_OR_UPDATE_TENDER',
+			payload: {
+				key,
+				valueCopy
+			}
+		});
+	});
+
+};
+
+const updateTender = (key, value) => (dispatch) => {
+	console.log('update a tender action creator');
+	const dbRef = firebase.database().ref(`tenders/${key}`);
+	dbRef.set(value, () => {
+		dispatch({
+			type: 'ADD_OR_UPDATE_TENDER',
+			payload: {
+				key,
+				value
+			}
+		});
+	});
+
+};
+
+const deleteTender = (key) => (dispatch) => {
+	console.log('deleting a tender action creator');
+	const dbRef = firebase.database().ref(`tenders/${key}`);
+	dbRef.remove(key).then(() => {
+		dispatch({
+			type: 'DELETE_TENDER',
+			payload: {
+				key
+			}
+		});
+	});
+};
 
 export {
 	fetchTenders,
-	addOrUpdateTender
+	addTender,
+	updateTender,
+	deleteTender
 };

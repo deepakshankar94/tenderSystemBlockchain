@@ -50,7 +50,7 @@ class Base extends React.Component {
 		return (
 			<MuiThemeProvider muiTheme={getMuiTheme()}>
 				<div styleName="base-component">
-					<div />
+					{this.renderApp()}
 				</div>
 			</MuiThemeProvider>
 		);
@@ -58,10 +58,7 @@ class Base extends React.Component {
 }
 
 Base.propTypes = {
-	skin: PropTypes.object.isRequired,
 	children: PropTypes.object.isRequired,
-	user: PropTypes.object.isRequired,
-	clearError: PropTypes.func.isRequired,
 };
 Base.defaultProps = {
 };

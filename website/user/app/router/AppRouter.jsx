@@ -12,10 +12,12 @@
  **/
 import React from 'react';
 import { Router, Route, IndexRoute, hashHistory } from 'react-router';
+import BaseContainer from 'containers/BaseContainer';
 import Loading from 'components/commonComponents/loading';
 import NotFound from 'components/notFound';
 import AdminModeContainer from 'containers/AdminModeContainer';
 import UserModeContainer from 'containers/UserModeContainer';
+import PublicModeContainer from 'containers/PublicModeContainer';
 import { onEnterDefaultTenderAdminRoute, onEnterDefaultTenderUserRoute, onEnterDefaultTenderPublicRoute } from './routeHandlers';
 /**
  * [appRoutes application routes]
@@ -25,7 +27,7 @@ import { onEnterDefaultTenderAdminRoute, onEnterDefaultTenderUserRoute, onEnterD
  * any other route apart from above displays NotFound page
  */
 const appRoutes = (
-	<Route path="/">
+	<Route path="/" component={BaseContainer}>
 		<IndexRoute component={Loading} onEnter={onEnterDefaultTenderPublicRoute} />
 		<Route path="admin">
 			<Route path=":id" component={AdminModeContainer} onEnter={onEnterDefaultTenderAdminRoute} />
@@ -33,6 +35,7 @@ const appRoutes = (
 		<Route path="user">
 			<Route path=":id" component={UserModeContainer} onEnter={onEnterDefaultTenderUserRoute} />
 		</Route>
+		<Route path="public" component={PublicModeContainer} onEnter={onEnterDefaultTenderPublicRoute} />
 		<Route path="*" component={NotFound} />
 	</Route>
 );
