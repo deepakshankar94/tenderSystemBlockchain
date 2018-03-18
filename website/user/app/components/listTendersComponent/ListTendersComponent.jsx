@@ -16,6 +16,8 @@ import React from 'react';
 import CSSModules from 'react-css-modules';
 import PropTypes from 'prop-types';
 import TenderCard from 'components/tenderCard';
+import * as _ from 'lodash';
+import Loader from 'components/loader';
 
 import styles from './listtenderscomponent.sass';
 
@@ -51,6 +53,9 @@ class ListTendersComponent extends React.Component {
 	)
 
 	render() {
+		if (_.isEmpty(this.props.tenders)) {
+			return <Loader />;
+		}
 		return (
 			<div styleName="listtenderscomponent-component">
 				{this.renderTenderCards()}
