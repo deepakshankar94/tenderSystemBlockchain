@@ -3,7 +3,7 @@ var firebase = require('firebase');
 let Web3 = require('web3'); 
 let web3 = new Web3();
 
-web3.setProvider(new web3.providers.HttpProvider('http://localhost:7545'));
+web3.setProvider(new web3.providers.HttpProvider('http://localhost:8545'));
 
 
 

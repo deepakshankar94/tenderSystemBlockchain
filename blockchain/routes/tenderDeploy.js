@@ -1,124 +1,96 @@
-let Web3 = require('web3');
+var Web3 = require('web3');
 // var provider = new Web3.providers.HttpProvider("http://localhost:7545");
 //var contract = require("truffle-contract");
-let fs = require("fs");
+var fs = require("fs");
 var firebase = require('firebase');
-let config = require('../config')
+var config = require('../config')
 // defaultDatabase = firebase.database();
 // var ref = defaultDatabase.ref("blockchain/"+blockNumber);
-//let solc = require("solc");
-let web3 = new Web3()
-web3.setProvider(new web3.providers.HttpProvider('http://localhost:7545'));
+//var solc = require("solc");
+var web3 = new Web3()
+web3.setProvider(new web3.providers.HttpProvider('http://localhost:8545'));
 
 
 
 
-let source = fs.readFileSync("./build/contracts/TenderDeployFactory.json","utf8");
-let contractJSON = JSON.parse(source)
-let abi = contractJSON.abi;
-console.log(abi)
-let DeployedTenderContract = web3.eth.contract(abi);
-let DeployedTenderContractAddress = config.tenderDeployFactoryAddr;
-var DeployedTenderContractInstance = DeployedTenderContract.at(DeployedTenderContractAddress);
-console.log(DeployedTenderContractAddress)
+var source = fs.readFileSync("./build/contracts/TenderDeployFactory.json","utf8");
+var contractJSON = JSON.parse(source)
+var abi = contractJSON.abi;
+var DeployedTenderFactoryContract = web3.eth.contract(abi);
+var DeployedTenderFactoryContractAddress = config.tenderDeployFactoryAddr;
+var DeployedTenderFactoryContractInstance = DeployedTenderFactoryContract.at(DeployedTenderFactoryContractAddress);
+
+
+var source = fs.readFileSync("./build/contracts/DeployedTender.json","utf8");
+var contractJSON = JSON.parse(source)
+var abi = contractJSON.abi;
+var DeployedTenderContract = web3.eth.contract(abi);
 
 
 
 
 exports.onTenderDeployed = function(req,res){
-	var tenderDeployedAddr = DeployedTenderContractInstance.newTenderDeploy("",{
-        from: '0x1cDA38A1c625428BA49d8a8FD9E50340E7633c49',
+
+	var tenderDeployedAddr = DeployedTenderFactoryContractInstance.newTenderDeploy("",{
+        from: web3.eth.accounts[0],
         gas: 1500000,
-        gasPrice: '30000000000000'
+        gasPrice: '300000'
     },function(s,p){
-    console.log( p.toString());
-});
+	    //console.log(s);
+	    if(s){
+	    	res.json({ message: 'error occured' });
+	    }
+	     contractAddr = p.toString();
+	     DeployedTenderContractInstance = DeployedTenderContract.at(contractAddr);
+	     defaultDatabase = firebase.database();
+		 var ref = defaultDatabase.ref("tenders/"+req.body.id)
+		 .update({"tenderAddress":contractAddr});
+		 res.json({ message: 'Successfully created contract vendor' });
+	});
 
-	res.send(tenderDeployedAddr);
 
-	try{
-
-	}catch(err){
-		res.send("Error encountered.");
-	}
 }
 
-exports.onTenderApplication = function(req,res){
-	let contractAddress = req.body.address;
-	let documentHash = req.body.documentHash;
-	let documentAddress = req.body.documentAddress;
-	let points = req.body.points;
-	let userPubKey = req.body.userPubKey;
-
+exports.putOracle = function(req,res){
+	defaultDatabase = firebase.database();
+	var data = defaultDatabase.ref("tenders/"+req.body.id).once('value').then(function(snapshot) {
+  	var contractAddr = (snapshot.val() && snapshot.val().tenderAddress);
+	DeployedTenderContractInstance = DeployedTenderContract.at(contractAddr);
 	
-	var contractInstance = MyContract.at(contractAddress);
-	try{
-		contractInstance.addApplicant([documentHash, documentAddress, points, userPubKey],{from: web3.eth.accounts[0], gas: 4700000});
-		res.status(200).send("successful");
-	}catch(err){
-		res.send("Error encountered.");
-	}
+	var tenderDeployedAddr = DeployedTenderContractInstance.addOracle(req.body.addr,{
+        from: web3.eth.accounts[0],
+        gas: 1500000,
+        gasPrice: '300000'
+    },function(s,p){
+	    //console.log(s);
+	    if(s){
+	    	res.json({ message: 'couldnt add oracle' });
+	    }
+	    res.json({ message: 'Successfully added oracle' });
+	});
 }
 
-exports.onTenderAllocation = function(req,res){
-	let contractAddress = req.body.address;
-	let userPubKey = req.body.userPubKey;
+exports.addOracleData = function(req,res){
+	defaultDatabase = firebase.database();
+	var data = defaultDatabase.ref("tenders/"+req.body.id).once('value').then(function(snapshot) {
+  	var contractAddr = (snapshot.val() && snapshot.val().tenderAddress);
+	DeployedTenderContractInstance = DeployedTenderContract.at(contractAddr);
+	
+	var tenderDeployedAddr = DeployedTenderContractInstance.addOracleData(req.body.addr,"/ipfs/QmZfSNpHVzTNi9gezLcgq64Wbj1xhwi9wk4AxYyxMZgtCG/","k4AxYyxM",{
+        from: web3.eth.accounts[0],
+        gas: 1500000,
+        gasPrice: '300000'
+    },function(s,p){
+	    //console.log(s);
+	    if(s){
+	    	res.json({ message: 'couldnt add oracle data' });
+	    }
+	    res.json({ message: 'Successfully added oracle data' });
+	});
 
-	var contractInstance = MyContract.at(contractAddress);
-
-	try{
-		contractInstance.allotTender([userPubKey],{from: web3.eth.accounts[0], gas: 4700000});
-		res.status(200).send("Succesfully executed");
-	}catch(err){
-		res.send("Error encountered.");
-	}
+	//send to oracle
+	web3.eth.sendTransaction({from:web3.eth.accounts[0],to:web3.eth.accounts[2], value:web3.toWei(0.05, "ether")});
+	//send to user
+	web3.eth.sendTransaction({from:web3.eth.accounts[0],to:web3.eth.accounts[1], value:web3.toWei(1.00, "ether")});
 }
 
-exports.onUserCreation = function(req,res){
-	//address _userPubKey, string _name, bool _isMiner, bool _isVendor
-	let userPubKey = req.body.userPubKey;
-	let name = req.body.name;
-	let isMiner = req.body.isMiner;
-	let isVendor = req.body.isVendor;
-
-	var contractInstance = MyContract2.at(participationContractAddr);
-
-	try{
-		contractInstance.addUser([userPubKey,name,isMiner,isVendor],{from: web3.eth.accounts[0], gas: 4700000});
-		res.status(200).send("Succesfully executed");
-	}catch(err){
-		res.send("Error encountered.");
-	}
-}
-
-exports.applyTender = function(req,res){
-	//address _userPubKey, uint tenderId
-
-	let userPubKey = req.body.userPubKey;
-	let tenderId = req.body.tenderId
-
-	var contractInstance = MyContract2.at(participationContractAddr);
-
-	try{
-		contractInstance.applyTender([userPubKey,tenderId],{from: web3.eth.accounts[0], gas: 4700000});
-		res.status(200).send("Succesfully executed");
-	}catch(err){
-		res.send("Error encountered.");
-	}
-
-}
-
-exports.getUserTenderList = function(req,res){
-	//address _userPubKey
-
-	let userPubKey = req.body.userPubKey;
-
-	var contractInstance = MyContract2.at(participationContractAddr);
-
-	try{
-		contractInstance.getUserTenderList([userPubKey],{from: web3.eth.accounts[0], gas: 4700000});
-		res.status(200).send("Succesfully executed");
-	}catch(err){
-		res.send("Error encountered.");
-	}
-}

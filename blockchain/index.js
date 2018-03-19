@@ -9,7 +9,7 @@ var firebaseHelper = require('./helpers/firebase_helper')
 var blockchainUpdateHelper = require('./helpers/blockchainupdate_helper')
 var tenderDeployedRoute = require('./routes/tenderDeploy')
 
-var users = require('../routes/users')
+var users = require('./routes/user')
 
 
 // configure app
@@ -58,14 +58,20 @@ router.get('/', function(req, res) {
 
 // on routes that end in /blockchain
 // ----------------------------------------------------
-router.route('/tederDeployed').post(tenderDeployedRoute.onTenderDeployed)
+router.route('/tenderDeploy').post(tenderDeployedRoute.onTenderDeployed);
+router.route('/tenderPutOracle').post(tenderDeployedRoute.putOracle);
+// router.route('/tenderDeployed').post(tenderDeployedRoute.onTenderDeployed);
+// router.route('/tenderDeployed').post(tenderDeployedRoute.onTenderDeployed);
+// router.route('/tenderDeployed').post(tenderDeployedRoute.onTenderDeployed);
 
-	// get all the bears (accessed at GET http://localhost:8080/api/bears)
-	.get(function(req, res) {
-		res.json({ message: 'get' });
+
+
+	// // get all the bears (accessed at GET http://localhost:8080/api/bears)
+	// .get(function(req, res) {
+	// 	res.json({ message: 'get' });
 		
 		
-	});
+	// });
 
 // on routes that end in /bears/:bear_id
 // ----------------------------------------------------
