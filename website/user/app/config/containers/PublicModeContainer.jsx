@@ -22,7 +22,7 @@ class PublicModeContainer extends React.Component {
 	render() {
 		return (
 			<div className="container">
-				<LandingPageComponent {...this.props} styles={undefined} />
+				<LandingPageComponent {...this.props} />
 			</div>
 		);
 	}

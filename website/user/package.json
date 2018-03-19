@@ -100,6 +100,7 @@
     "react-addons-css-transition-group": "^15.1.0",
     "react-addons-update": "^15.1.0",
     "react-css-modules": "^3.7.10",
+	"particlesjs": "2.2.1",
     "react-dom": "^15.0.1",
     "react-notification-system": "^0.2.10",
     "react-redux": "^4.4.5",
@@ -108,7 +109,7 @@
     "react-tap-event-plugin": "^2.0.1",
     "redux": "^3.5.2",
     "redux-immutable": "^3.0.8",
-	    "redux-devtools-extension": "^2.13.2",
+	"redux-devtools-extension": "^2.13.2",
     "redux-thunk": "^2.1.0"
   }
 }

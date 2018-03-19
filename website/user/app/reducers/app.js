@@ -22,6 +22,7 @@ import storageProviders from './storageProviders/storageProviders';
 import miners from './miners/miners';
 import departments from './departments/departments';
 import governments from './governments/governments';
+import blockchain from './blockchain/blockchain';
 import authorizedVerifiers from './authorizedVerifiers/authorizedVerifiers';
 
 const app = combineReducers({
@@ -33,7 +34,8 @@ const app = combineReducers({
 	storageProviders,
 	departments,
 	governments,
-	authorizedVerifiers
+	authorizedVerifiers,
+	blockchain
 });
 
 export default app;

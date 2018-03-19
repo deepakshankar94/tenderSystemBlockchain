@@ -1,7 +1,7 @@
 /**
  * @author: dharmik
  * @since: Sat Mar 17 2018 16:23:27 GMT+0530 (IST)
- * @file: PublicModeContainer.js
+ * @file: AdminModeContainer.js
  *
  * @copyright: KNOLSKAPE Solutions Pvt Ltd
  **/
@@ -15,22 +15,22 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import LandingPageComponent from 'components/landingPageComponent';
+import Introduction from 'components/introduction';
 import { moveToDashboardScreen } from 'actions/init';
 
-class PublicModeContainer extends React.Component {
+class AdminModeContainer extends React.Component {
 	render() {
 		return (
 			<div className="container">
-				<LandingPageComponent {...this.props} styles={undefined} />
+				<Introduction {...this.props} />
 			</div>
 		);
 	}
 }
 
-PublicModeContainer.propTypes = {};
+AdminModeContainer.propTypes = {};
 
-PublicModeContainer.defaultProps = {};
+AdminModeContainer.defaultProps = {};
 
 const mapStateToProps = (state) => ({ ...(state.toJS()) });
 
@@ -40,4 +40,4 @@ const mapDispatchToProps = (dispatch) => ({
 	}
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(PublicModeContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(AdminModeContainer);
