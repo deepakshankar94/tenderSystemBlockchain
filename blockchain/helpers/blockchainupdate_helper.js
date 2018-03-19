@@ -50,6 +50,7 @@ function startBlockchainUpdater(clearFirebase) {
 		if(clearFirebase == true){
 			clearBlockchainFirebase();
 		}
+
 		setInterval(updateBlockchainData,500);
 	}
 	catch(e){

@@ -1,5 +1,5 @@
 let Web3 = require('web3');
-var provider = new Web3.providers.HttpProvider("http://localhost:7545");
+// var provider = new Web3.providers.HttpProvider("http://localhost:7545");
 var contract = require("truffle-contract");
 let fs = require("fs");
 let solc = require("solc");
@@ -9,6 +9,7 @@ web3.setProvider(new web3.providers.HttpProvider('http://localhost:7545'));
 let source = fs.readFileSync("./build/contracts/Tender.json","utf8");
 let contractJSON = JSON.parse(source)
 let abi = contractJSON.abi;
+let byteCode = contractJSON.byteCode;
 let MyContract = web3.eth.contract(abi);
 
 let source2 = fs.readFileSync("./build/contracts/participation.json","utf8");
@@ -38,9 +39,10 @@ exports.onTenderApplication = function(req,res){
 	let points = req.body.points;
 	let userPubKey = req.body.userPubKey;
 
-	
+	var contractInstance2 = MyContract2.at(participationContractAddr);
 	var contractInstance = MyContract.at(contractAddress);
 	try{
+		contractInstance2.applyTender([userPubKey,tenderId],{from: web3.eth.accounts[0], gas: 4700000});
 		contractInstance.addApplicant([documentHash, documentAddress, points, userPubKey],{from: web3.eth.accounts[0], gas: 4700000});
 		res.status(200).send("successful");
 	}catch(err){

@@ -9,6 +9,7 @@ var firebaseHelper = require('./helpers/firebase_helper')
 var blockchainUpdateHelper = require('./helpers/blockchainupdate_helper')
 var tenderDeployedRoute = require('./routes/tenderDeploy')
 
+var users = require('../routes/users')
 
 
 // configure app
@@ -18,7 +19,7 @@ app.use(morgan('dev')); // log requests to the console
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var port     = process.env.PORT || 8080; // set our port
+var port = process.env.PORT || 8080; // set our port
 
 
 //connect to db
@@ -26,6 +27,7 @@ firebaseHelper.establishDatabaseConnection();
 
 // start blockchain updater to firebase
 blockchainUpdateHelper.startBlockchainUpdater(true);
+
 
 // ROUTES FOR OUR API
 // =============================================================================
@@ -39,6 +41,15 @@ router.use(function(req, res, next) {
 	console.log('Something is happening.');
 	next();
 });
+
+
+
+router.post('/createtender',users.onTenderCreate);
+router.post('/applytender',users.onTenderApplication);
+router.post('/allocatetender',users.onTenderAllocation);
+router.post('/createuser',users.onUserCreation);
+router.post('/getusertenderlist',users.getUserTenderList);
+
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 router.get('/', function(req, res) {
@@ -98,6 +109,7 @@ router.route('/bears/:bear_id')
 			res.json({ message: 'Successfully deleted' });
 		});
 	});
+
 
 
 // REGISTER OUR ROUTES -------------------------------
