@@ -18,6 +18,7 @@ import { connect } from 'react-redux';
 import { moveToDashboardScreen } from 'actions/init';
 import TenderCreateComponent from 'components/tenderCreateComponent';
 import { addTender } from 'actions/tenders';
+import { updateRoute } from	'util';
 
 class TenderCreateContainer extends React.Component {
 	render() {
@@ -42,6 +43,10 @@ const mapDispatchToProps = (dispatch) => ({
 
 	submitTender: (tenderData) => {
 		dispatch(addTender(tenderData));
+	},
+
+	updateRouteOnTenderSubmission(routeToRedirect) {
+		updateRoute(routeToRedirect);
 	}
 });
 

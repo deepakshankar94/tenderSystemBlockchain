@@ -76,6 +76,8 @@ class TenderCreateComponent extends React.Component {
 		console.log(this.props);
 
 		this.props.submitTender(this.state);
+		const routeToRedirect = `admin/${this.props.params.id}/dashboard`;
+		this.props.updateRouteOnTenderSubmission(routeToRedirect);
 	}
 
 	onChangeCriteriaName = (idx) => (event) => {
@@ -287,7 +289,9 @@ class TenderCreateComponent extends React.Component {
 }
 
 TenderCreateComponent.propTypes = {
-	submitTender: PropTypes.func.isRequired
+	params: PropTypes.object,
+	submitTender: PropTypes.func.isRequired,
+	updateRouteOnTenderSubmission: PropTypes.func.isRequired
 };
 TenderCreateComponent.defaultProps = {};
 
