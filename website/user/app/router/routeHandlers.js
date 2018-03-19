@@ -22,9 +22,10 @@ import { fetchUsers } from 'actions/users';
 import { fetchVendors } from 'actions/vendors';
 import { initFirebaseDB } from 'util/firebase';
 
+initFirebaseDB();
+
 const onEnterDefaultTenderAdminRoute = (routeInfo) => {
 	console.log(routeInfo);
-	initFirebaseDB();
 	Promise.all([
 		fetchVendors(store.dispatch),
 		fetchUsers(store.dispatch),
@@ -75,7 +76,6 @@ const onEnterDefaultTenderPublicRoute = (routeInfo) => {
 
 const onEnterDefaultTenderCreateRoute = (routeInfo) => {
 	console.log(routeInfo);
-	initFirebaseDB();
 	Promise.all([
 		fetchVendors(store.dispatch),
 		fetchUsers(store.dispatch),
