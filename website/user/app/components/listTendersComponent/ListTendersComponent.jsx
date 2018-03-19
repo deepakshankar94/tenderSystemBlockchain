@@ -26,15 +26,17 @@ class ListTendersComponent extends React.Component {
 
 	renderExistingTendersCards = () => {
 		const tendersList = Object.values(this.props.tenders);
-		return tendersList.map((tender) => {
-			console.log('azdasdasd', tender, tender.id, tender.name);
-			return (<TenderCard
+		return tendersList.map((tender) => (
+			// console.log('azdasdasd', tender, tender.id, tender.name);
+			<TenderCard
 				key={tender.id}
 				id={tender.id}
 				name={tender.name}
 				updateRouteOnTenderCardClick={this.props.updateRouteOnTenderCardClick}
-			/>);
-		});
+				{...this.props}
+				styles={undefined}
+			/>
+		));
 	}
 
 	renderCreateTenderCard = () => (
@@ -42,6 +44,8 @@ class ListTendersComponent extends React.Component {
 			id={-1}
 			name="Create Tender"
 			updateRouteOnTenderCardClick={this.props.updateRouteOnTenderCardClick}
+			{...this.props}
+			styles={undefined}
 		/>
 	)
 

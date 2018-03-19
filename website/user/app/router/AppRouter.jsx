@@ -20,7 +20,15 @@ import UserModeContainer from 'containers/UserModeContainer';
 import PublicModeContainer from 'containers/PublicModeContainer';
 import TenderContainer from 'containers/TenderContainer';
 import TenderCreateContainer from 'containers/TenderCreateContainer';
-import { onEnterDefaultTenderAdminRoute, onEnterDefaultTenderUserRoute, onEnterDefaultTenderPublicRoute, onEnterDefaultTenderCreateRoute } from './routeHandlers';
+import VendorContainer from 'containers/VendorContainer';
+import VendorApplyContainer from 'containers/VendorApplyContainer';
+import {
+	onEnterDefaultTenderAdminRoute,
+	onEnterDefaultTenderUserRoute,
+	onEnterDefaultTenderPublicRoute,
+	onEnterDefaultTenderCreateRoute,
+	onEnterDefaultVendorApplyRoute
+} from './routeHandlers';
 /**
  * [appRoutes application routes]
  * default route displays loading page
@@ -32,15 +40,19 @@ const appRoutes = (
 	<Route path="/" component={BaseContainer}>
 		<IndexRoute component={Loading} onEnter={onEnterDefaultTenderPublicRoute} />
 		<Route path="admin">
-			<Route path=":id" component={AdminModeContainer} onEnter={onEnterDefaultTenderAdminRoute} />
+			<Route path=":id/dashboard" component={AdminModeContainer} onEnter={onEnterDefaultTenderAdminRoute} />
+			<Route path=":id/tenders">
+				<Route path="create" component={TenderCreateContainer} onEnter={onEnterDefaultTenderCreateRoute} />
+				<Route path=":id" component={TenderContainer} />
+			</Route>
 		</Route>
 		<Route path="user">
 			<Route path=":id" component={UserModeContainer} onEnter={onEnterDefaultTenderUserRoute} />
 		</Route>
 		<Route path="public" component={PublicModeContainer} onEnter={onEnterDefaultTenderPublicRoute} />
-		<Route path="tenders">
-			<Route path="create" component={TenderCreateContainer} onEnter={onEnterDefaultTenderCreateRoute} />
-			<Route path=":id" component={TenderContainer} />
+		<Route path="vendors">
+			<Route path=":id/dashboard" component={VendorContainer} />
+			<Route path=":id/tenders/:tender_id/apply" component={VendorApplyContainer} onEnter={onEnterDefaultVendorApplyRoute} />
 		</Route>
 		<Route path="*" component={NotFound} />
 	</Route>

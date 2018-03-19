@@ -83,9 +83,14 @@ const onEnterDefaultTenderCreateRoute = (routeInfo) => {
 	]);
 };
 
+const onEnterDefaultVendorApplyRoute = (routeInfo) => {
+	console.log(routeInfo);
+};
+
 export {
 	onEnterDefaultTenderAdminRoute,
 	onEnterDefaultTenderUserRoute,
 	onEnterDefaultTenderPublicRoute,
-	onEnterDefaultTenderCreateRoute
+	onEnterDefaultTenderCreateRoute,
+	onEnterDefaultVendorApplyRoute
 };

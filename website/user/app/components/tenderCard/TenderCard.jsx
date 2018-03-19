@@ -38,11 +38,12 @@ const addIconStyle = {
 class TenderCard extends React.Component {
 
 	handleCardClick = () => {
-		let routeToRedirect = 'tenders/';
+		let routeToRedirect = `admin/${this.props.routeParams.id}/tenders/`;
 		if (this.props.id === -1) {
+			console.log(this.props);
 			routeToRedirect += 'create';
 		} else {
-			routeToRedirect += this.props.id;
+			routeToRedirect += `${this.props.id}`;
 		}
 		this.props.updateRouteOnTenderCardClick(routeToRedirect);
 	}
@@ -85,6 +86,7 @@ class TenderCard extends React.Component {
 }
 
 TenderCard.propTypes = {
+	routeParams: PropTypes.object,
 	id: PropTypes.number,
 	name: PropTypes.string,
 	updateRouteOnTenderCardClick: PropTypes.func.isRequired
