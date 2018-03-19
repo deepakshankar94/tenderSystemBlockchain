@@ -7,6 +7,8 @@ var app        = express();
 var morgan     = require('morgan');
 var firebaseHelper = require('./helpers/firebase_helper')
 var blockchainUpdateHelper = require('./helpers/blockchainupdate_helper')
+var tenderDeployedRoute = require('./routes/tenderDeploy')
+
 
 
 // configure app
@@ -24,7 +26,6 @@ firebaseHelper.establishDatabaseConnection();
 
 // start blockchain updater to firebase
 blockchainUpdateHelper.startBlockchainUpdater(true);
-return;
 
 // ROUTES FOR OUR API
 // =============================================================================
@@ -46,7 +47,7 @@ router.get('/', function(req, res) {
 
 // on routes that end in /blockchain
 // ----------------------------------------------------
-router.route('/blockchain').post()
+router.route('/tederDeployed').post(tenderDeployedRoute.onTenderDeployed)
 
 	// get all the bears (accessed at GET http://localhost:8080/api/bears)
 	.get(function(req, res) {

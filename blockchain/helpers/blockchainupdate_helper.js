@@ -22,7 +22,7 @@ function updateBlockchainData() {
 		blockUploadData.difficulty = blockUploadData.difficulty.toString();
 		blockUploadData.totalDifficulty = blockUploadData.totalDifficulty.toString();
 		blockUploadData.id = blockNumber;
-		blockChainUpload.miner = "0xfe541e9c2a36a1e842cbebede2bca0fd0ab2e073";
+		blockUploadData.miner = "0xfe541e9c2a36a1e842cbebede2bca0fd0ab2e073";
 		for (var i = 0; i < blockData.transactions.length; i++) {
 			trans = web3.eth.getTransaction(blockData.transactions[i]);
 			if(trans.to=="0x0"){
@@ -50,7 +50,6 @@ function startBlockchainUpdater(clearFirebase) {
 		if(clearFirebase == true){
 			clearBlockchainFirebase();
 		}
-		console.log("b")
 		setInterval(updateBlockchainData,500);
 	}
 	catch(e){
