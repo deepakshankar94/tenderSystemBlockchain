@@ -5,7 +5,7 @@ import store from 'store/store';
 const computeTenderPoints = (tenderId, criteriaIdAndValueObject) => {
 	let points = 0;
 	const stateCopy = store.getState().toJS();
-	const tenderCriteriasInfo = stateCopy.tenders[tenderId].criteria;
+	const tenderCriteriasInfo = stateCopy.tenders[tenderId].criterias;
 	const usersCriteriaIds = Object.keys(criteriaIdAndValueObject);
 	console.log(`userCriteria ids are ${usersCriteriaIds}`);
 	for (let i = 0; i < usersCriteriaIds.length; i++)	{
