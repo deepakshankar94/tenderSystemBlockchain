@@ -93,6 +93,7 @@
     "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.13.1",
     "material-ui": "^0.16.4",
+	"moment": "2.21.0",
     "netpack": "git+ssh://git@code.knolskape.com:tools/netpack.git",
     "promise-defer": "^1.0.0",
     "react": "^15.0.1",

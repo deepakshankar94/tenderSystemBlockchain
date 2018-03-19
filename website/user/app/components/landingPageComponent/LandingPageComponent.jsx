@@ -16,6 +16,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CSSModules from 'react-css-modules';
 import Particles from 'particlesjs';
+import moment from 'moment';
+import * as _ from 'lodash';
 import {
   Table,
   TableBody,
@@ -51,24 +53,35 @@ class LandingPageComponent extends React.Component {
 					title="Block chain"
 				/> */}
 				<div styleName="landing-container">
-					<Table fixedHeader height="500">
+					<h1 styleName="header">Block chain Info</h1>
+					<Table fixedHeader multiSelectable="false" height="700" width="2000">
 						<TableHeader>
 							<TableRow>
 								<TableHeaderColumn>HashId</TableHeaderColumn>
 								<TableHeaderColumn>Size</TableHeaderColumn>
 								<TableHeaderColumn>Transactions</TableHeaderColumn>
+								<TableHeaderColumn>Published At</TableHeaderColumn>
 								<TableHeaderColumn>MinerId</TableHeaderColumn>
+								<TableHeaderColumn>-</TableHeaderColumn>
 							</TableRow>
 						</TableHeader>
 						<TableBody>
 							{
-							Object.values(this.props.blockchain).map((block, id) => {
+							_.sortBy(Object.values(this.props.blockchain), 'timestamp').reverse().map((block, id) => {
 								console.log(id);
+								let len = 0;
+								if (Object.hasOwnProperty.call(block, 'transactions')) {
+									len = Object.values(block.transactions).length;
+								}
 								return (<TableRow>
-									<TableRowColumn>hashId: {block.hash}</TableRowColumn>
+									<TableRowColumn>{block.hash}</TableRowColumn>
 									<TableRowColumn>{block.size}</TableRowColumn>
-									<TableRowColumn>{block.transactions.length()}</TableRowColumn>
+									<TableRowColumn>{len}</TableRowColumn>
+									console.log();
+									<TableRowColumn>{moment.unix(block.timestamp).format('MMMM Do YYYY, h:mm:ss a')}</TableRowColumn>
 									<TableRowColumn>{block.miner}</TableRowColumn>
+									<TableRowColumn>{moment.unix(block.timestamp).startOf('second').fromNow()}
+									</TableRowColumn>
 								</TableRow>);
 							})
 						}
