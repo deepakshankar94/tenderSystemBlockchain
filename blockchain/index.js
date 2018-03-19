@@ -5,6 +5,9 @@ var express    = require('express');
 var bodyParser = require('body-parser');
 var app        = express();
 var morgan     = require('morgan');
+var firebaseHelper = require('./helpers/firebase_helper')
+var blockchainUpdateHelper = require('./helpers/blockchainupdate_helper')
+
 
 // configure app
 app.use(morgan('dev')); // log requests to the console
@@ -15,6 +18,13 @@ app.use(bodyParser.json());
 
 var port     = process.env.PORT || 8080; // set our port
 
+
+//connect to db
+firebaseHelper.establishDatabaseConnection();
+
+// start blockchain updater to firebase
+blockchainUpdateHelper.startBlockchainUpdater(true);
+return;
 
 // ROUTES FOR OUR API
 // =============================================================================
@@ -34,20 +44,9 @@ router.get('/', function(req, res) {
 	res.json({ message: 'test' });	
 });
 
-// on routes that end in /bears
+// on routes that end in /blockchain
 // ----------------------------------------------------
-router.route('/blockchain')
-	.post(function(req, res) {
-		
-			
-		data= req.body
-
-		
-			res.json({ message: 'post' });
-		
-
-		
-	})
+router.route('/blockchain').post()
 
 	// get all the bears (accessed at GET http://localhost:8080/api/bears)
 	.get(function(req, res) {
