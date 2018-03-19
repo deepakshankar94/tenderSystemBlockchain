@@ -27,6 +27,7 @@ import {
 	onEnterDefaultTenderUserRoute,
 	onEnterDefaultTenderPublicRoute,
 	onEnterDefaultTenderCreateRoute,
+	onEnterDefaultVendorRoute,
 	onEnterDefaultVendorApplyRoute
 } from './routeHandlers';
 /**
@@ -51,7 +52,7 @@ const appRoutes = (
 		</Route>
 		<Route path="public" component={PublicModeContainer} onEnter={onEnterDefaultTenderPublicRoute} />
 		<Route path="vendors">
-			<Route path=":id/dashboard" component={VendorContainer} />
+			<Route path=":id/dashboard" component={VendorContainer} onEnter={onEnterDefaultVendorRoute} />
 			<Route path=":id/tenders/:tender_id/apply" component={VendorApplyContainer} onEnter={onEnterDefaultVendorApplyRoute} />
 		</Route>
 		<Route path="*" component={NotFound} />
