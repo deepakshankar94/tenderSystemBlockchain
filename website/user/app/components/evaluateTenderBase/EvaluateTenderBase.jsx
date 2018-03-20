@@ -13,6 +13,7 @@
  **/
 
 import React from 'react';
+import { AppBar } from 'material-ui';
 import CSSModules from 'react-css-modules';
 import styles from './evaluatetenderbase.sass';
 
@@ -22,7 +23,10 @@ class EvaluateTenderBase extends React.Component {
 	render() {
 		return (
 			<div styleName="evaluatetenderbase-component">
-				This is the evaluate tender page.
+				<AppBar
+					title="Tender Evaluation"
+					iconClassNameRight="muidocs-icon-navigation-expand-more"
+				/>
 			</div>
 		);
 	}

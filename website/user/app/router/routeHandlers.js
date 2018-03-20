@@ -85,11 +85,15 @@ const onEnterDefaultTenderEvaluatorRoute = (routeInfo) => {
 		fetchUsers(store.dispatch),
 		fetchTenders(store.dispatch)
 	]).then(() => {
-		store.dispatch(applyForTender('-L7ybmdmONVTpZtpHfbg', 1, {
-			0: 500,
-			1: 1553020100
+		store.dispatch(applyForTender('-L7ybmdmONVTpZtpHfbg', 0, {
+			0: 200,
+			1: 1521484200700
 		}));
-		store.dispatch(selectVendorForTender('-L7ybmdmONVTpZtpHfbg', 2));
+		store.dispatch(applyForTender('-L7ybmdmONVTpZtpHfbg', 1, {
+			0: 700,
+			1: 1521484200500
+		}));
+		store.dispatch(selectVendorForTender('-L7ybmdmONVTpZtpHfbg', 0));
 	});
 };
 
