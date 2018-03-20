@@ -14,7 +14,7 @@
  * enter handler for / or default route
  */
 import store from 'store/store';
-import { fetchTenders, addTender, selectVendorForTender } from 'actions/tenders';
+import { fetchTenders, selectVendorForTender } from 'actions/tenders';
 import { applyForTender } from 'actions/generic';
 import { fetchUsers } from 'actions/users';
 import { fetchVendors } from 'actions/vendors';
@@ -30,35 +30,35 @@ const onEnterDefaultTenderAdminRoute = (routeInfo) => {
 		fetchTenders(store.dispatch)
 	])
     .then(() => {
-	store.dispatch(addTender({
-		name: 'Test tender 1',
-		description: 'This is test tender and here you can give the details of the tender.',
-		departmentId: 1,
-		publicKey: 'asfdsafdsafasdfsadfsadfsadcsddscdscsdf',
-		criteria: {
-			0: {
-				id: 0,
-				name: 'Budget',
-				minOrMax: 1,
-				minVal: 0,
-				maxValue: 1000,
-				type: 'number'
-			},
-			1: {
-				id: 1,
-				name: 'Completion date',
-				minOrMax: 0,
-				minVal: 1553020200,
-				maxValue: 1560969000,
-				type: 'number'
-			}
-		}
-	}));
-	store.dispatch(applyForTender('-L7ybmdmONVTpZtpHfbg', 1, {
-		0: 500,
-		1: 1553020100
-	}));
-	store.dispatch(selectVendorForTender('-L7ybmdmONVTpZtpHfbg', 1));
+	// store.dispatch(addTender({
+	// 	name: 'Test tender 1',
+	// 	description: 'This is test tender and here you can give the details of the tender.',
+	// 	departmentId: 1,
+	// 	publicKey: 'asfdsafdsafasdfsadfsadfsadcsddscdscsdf',
+	// 	criteria: {
+	// 		0: {
+	// 			id: 0,
+	// 			name: 'Budget',
+	// 			minOrMax: 1,
+	// 			minVal: 0,
+	// 			maxValue: 1000,
+	// 			type: 'number'
+	// 		},
+	// 		1: {
+	// 			id: 1,
+	// 			name: 'Completion date',
+	// 			minOrMax: 0,
+	// 			minVal: 1553020200,
+	// 			maxValue: 1560969000,
+	// 			type: 'number'
+	// 		}
+	// 	}
+	// }));
+	// store.dispatch(applyForTender('-L7ybmdmONVTpZtpHfbg', 1, {
+	// 	0: 500,
+	// 	1: 1553020100
+	// }));
+	// store.dispatch(selectVendorForTender('-L7ybmdmONVTpZtpHfbg', 1));
 });
 };
 const onEnterDefaultTenderUserRoute = (routeInfo) => {
@@ -79,21 +79,22 @@ const onEnterDefaultTenderCreateRoute = (routeInfo) => {
 };
 
 const onEnterDefaultTenderEvaluatorRoute = (routeInfo) => {
-	console.log(routeInfo);
+	console.log('route info is');
+	console.log(routeInfo.params.id);
 	Promise.all([
 		fetchVendors(store.dispatch),
 		fetchUsers(store.dispatch),
 		fetchTenders(store.dispatch)
 	]).then(() => {
-		store.dispatch(applyForTender('-L7ybmdmONVTpZtpHfbg', 0, {
+		store.dispatch(applyForTender(routeInfo.params.id, 0, {
 			0: 200,
 			1: 1521484200700
 		}));
-		store.dispatch(applyForTender('-L7ybmdmONVTpZtpHfbg', 1, {
+		store.dispatch(applyForTender(routeInfo.params.id, 1, {
 			0: 700,
 			1: 1521484200500
 		}));
-		store.dispatch(selectVendorForTender('-L7ybmdmONVTpZtpHfbg', 0));
+		store.dispatch(selectVendorForTender(routeInfo.params.id, 0));
 	});
 };
 
