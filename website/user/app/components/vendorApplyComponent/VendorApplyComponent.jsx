@@ -59,7 +59,7 @@ class VendorApplyComponent extends React.Component {
 		const tenderId = this.props.routeParams.tender_id;
 		const data = this.state.data;
 		console.log(vendorId, tenderId, data);
-		this.props.applyForTender(vendorId, tenderId, data);
+		this.props.applyForTender(tenderId, vendorId, data);
 	}
 
 	onChangeCriteriaVal = (idx) => (event) => {
