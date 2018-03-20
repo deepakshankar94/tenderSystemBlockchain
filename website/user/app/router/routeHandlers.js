@@ -14,7 +14,7 @@
  * enter handler for / or default route
  */
 import store from 'store/store';
-import { fetchTenders, addTender } from 'actions/tenders';
+import { fetchTenders, addTender, selectVendorForTender } from 'actions/tenders';
 import { applyForTender } from 'actions/generic';
 import { fetchUsers } from 'actions/users';
 import { fetchVendors } from 'actions/vendors';
@@ -54,10 +54,11 @@ const onEnterDefaultTenderAdminRoute = (routeInfo) => {
 			}
 		}
 	}));
-	store.dispatch(applyForTender(1, 0, {
+	store.dispatch(applyForTender('-L7ybmdmONVTpZtpHfbg', 1, {
 		0: 500,
 		1: 1553020100
 	}));
+	store.dispatch(selectVendorForTender('-L7ybmdmONVTpZtpHfbg', 1));
 });
 };
 const onEnterDefaultTenderUserRoute = (routeInfo) => {
@@ -76,9 +77,27 @@ const onEnterDefaultTenderCreateRoute = (routeInfo) => {
 		fetchTenders(store.dispatch)
 	]);
 };
+
+const onEnterDefaultTenderEvaluatorRoute = (routeInfo) => {
+	console.log(routeInfo);
+	Promise.all([
+		fetchVendors(store.dispatch),
+		fetchUsers(store.dispatch),
+		fetchTenders(store.dispatch)
+	]).then(() => {
+		store.dispatch(applyForTender('-L7ybmdmONVTpZtpHfbg', 1, {
+			0: 500,
+			1: 1553020100
+		}));
+		store.dispatch(selectVendorForTender('-L7ybmdmONVTpZtpHfbg', 2));
+	});
+};
+
+
 export {
     onEnterDefaultTenderAdminRoute,
     onEnterDefaultTenderUserRoute,
     onEnterDefaultTenderPublicRoute,
-    onEnterDefaultTenderCreateRoute
+    onEnterDefaultTenderCreateRoute,
+	onEnterDefaultTenderEvaluatorRoute
 };

@@ -18,7 +18,8 @@ import NotFound from 'components/notFound';
 import AdminModeContainer from 'containers/AdminModeContainer';
 import UserModeContainer from 'containers/UserModeContainer';
 import PublicModeContainer from 'containers/PublicModeContainer';
-import { onEnterDefaultTenderAdminRoute, onEnterDefaultTenderUserRoute, onEnterDefaultTenderPublicRoute } from './routeHandlers';
+import EvaluatorModeContainer from 'containers/EvaluatorModeContainer';
+import { onEnterDefaultTenderAdminRoute, onEnterDefaultTenderUserRoute, onEnterDefaultTenderPublicRoute, onEnterDefaultTenderEvaluatorRoute } from './routeHandlers';
 /**
  * [appRoutes application routes]
  * default route displays loading page
@@ -34,6 +35,11 @@ const appRoutes = (
 		</Route>
 		<Route path="user">
 			<Route path=":id" component={UserModeContainer} onEnter={onEnterDefaultTenderUserRoute} />
+		</Route>
+		<Route path="tenders">
+			<Route path=":id">
+				<Route path="evaluate" component={EvaluatorModeContainer} onEnter={onEnterDefaultTenderEvaluatorRoute} />
+			</Route>
 		</Route>
 		<Route path="public" component={PublicModeContainer} onEnter={onEnterDefaultTenderPublicRoute} />
 		<Route path="*" component={NotFound} />

@@ -52,6 +52,11 @@ const tenders = (state = initialState, action = {}) => {
 			}
 			stateCopy[tenderId].vendors[userId] = action.payload;
 			return stateCopy;
+		case 'SELECT_VENDOR_FOR_TENDER':
+			console.log(action.payload.tenderId);
+			console.log(action.payload.vendorId);
+			stateCopy[action.payload.tenderId].selectedVendorId = action.payload.vendorId;
+			return stateCopy;
 		default:
 			// return default state
 			return state;

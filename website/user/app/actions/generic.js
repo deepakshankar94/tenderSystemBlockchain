@@ -5,6 +5,8 @@ import store from 'store/store';
 const computeTenderPoints = (tenderId, criteriaIdAndValueObject) => {
 	let points = 0;
 	const stateCopy = store.getState().toJS();
+	console.log('tenderId is');
+	console.log(stateCopy);
 	const tenderCriteriasInfo = stateCopy.tenders[tenderId].criterias;
 	const usersCriteriaIds = Object.keys(criteriaIdAndValueObject);
 	console.log(`userCriteria ids are ${usersCriteriaIds}`);
@@ -41,7 +43,7 @@ const computeTenderPoints = (tenderId, criteriaIdAndValueObject) => {
 	return points;
 };
 
-const applyForTender = (userId, tenderId, criteriaIdAndValueObject) => (dispatch) => {
+const applyForTender = (tenderId, userId, criteriaIdAndValueObject) => (dispatch) => {
 	console.log('apply for tender action generator thunk is called');
 	const payload = {
 		userId,

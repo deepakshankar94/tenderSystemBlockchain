@@ -55,6 +55,19 @@ const updateTender = (key, value) => (dispatch) => {
 
 };
 
+const selectVendorForTender = (tenderId, vendorId) => (dispatch) => {
+	const dbRef = firebase.database().ref(`tenders/${tenderId}/selectedVendorId`);
+	dbRef.set(vendorId, () => {
+		dispatch({
+			type: 'SELECT_VENDOR_FOR_TENDER',
+			payload: {
+				tenderId,
+				vendorId
+			}
+		});
+	});
+};
+
 const deleteTender = (key) => (dispatch) => {
 	console.log('deleting a tender action creator');
 	const dbRef = firebase.database().ref(`tenders/${key}`);
@@ -88,5 +101,6 @@ export {
 	addTender,
 	updateTender,
 	deleteTender,
+	selectVendorForTender,
 	addVendorSubmission
 };
