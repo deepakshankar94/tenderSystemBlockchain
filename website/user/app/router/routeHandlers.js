@@ -97,11 +97,30 @@ const onEnterDefaultTenderEvaluatorRoute = (routeInfo) => {
 	});
 };
 
+const onEnterDefaultVendorRoute = (routeInfo) => {
+	console.log(routeInfo);
+	Promise.all([
+		fetchVendors(store.dispatch),
+		fetchUsers(store.dispatch),
+		fetchTenders(store.dispatch)
+	]);
+};
+
+const onEnterDefaultVendorApplyRoute = (routeInfo) => {
+	console.log(routeInfo);
+	Promise.all([
+		fetchVendors(store.dispatch),
+		fetchUsers(store.dispatch),
+		fetchTenders(store.dispatch)
+	]);
+};
 
 export {
-    onEnterDefaultTenderAdminRoute,
-    onEnterDefaultTenderUserRoute,
-    onEnterDefaultTenderPublicRoute,
-    onEnterDefaultTenderCreateRoute,
-	onEnterDefaultTenderEvaluatorRoute
+	onEnterDefaultTenderAdminRoute,
+	onEnterDefaultTenderUserRoute,
+	onEnterDefaultTenderPublicRoute,
+	onEnterDefaultTenderCreateRoute,
+	onEnterDefaultVendorRoute,
+	onEnterDefaultVendorApplyRoute,
+	onEnterDefaultTenderEvaluatorRoute,
 };

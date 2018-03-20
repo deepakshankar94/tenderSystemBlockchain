@@ -1,7 +1,7 @@
 /**
  * @author: dharmik
  * @since: Sat Mar 17 2018 16:23:27 GMT+0530 (IST)
- * @file: AdminModeContainer.js
+ * @file: TenderContainer.js
  *
  * @copyright: KNOLSKAPE Solutions Pvt Ltd
  **/
@@ -15,34 +15,29 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import AdminModeComponent from 'components/adminModeComponent';
 import { moveToDashboardScreen } from 'actions/init';
-import { updateRoute } from	'util';
+import TenderComponent from 'components/tenderComponent';
 
-class AdminModeContainer extends React.Component {
+class TenderContainer extends React.Component {
 	render() {
 		return (
 			<div className="container">
-				<AdminModeComponent {...this.props} />
+				<TenderComponent />
 			</div>
 		);
 	}
 }
 
-AdminModeContainer.propTypes = {};
+TenderContainer.propTypes = {};
 
-AdminModeContainer.defaultProps = {};
+TenderContainer.defaultProps = {};
 
 const mapStateToProps = (state) => ({ ...(state.toJS()) });
 
 const mapDispatchToProps = (dispatch) => ({
 	moveToDashboard: () => {
 		dispatch(moveToDashboardScreen());
-	},
-
-	updateRouteOnTenderCardClick(routeToRedirect) {
-		updateRoute(routeToRedirect);
 	}
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdminModeContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(TenderContainer);

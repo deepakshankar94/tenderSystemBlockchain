@@ -27,7 +27,6 @@ const addTender = (value) => (dispatch) => {
 	const key = dbRef.push().key;
 	const valueCopy = JSON.parse(JSON.stringify(value));
 	valueCopy.id = key;
-	valueCopy.name += `_${key}`;
 	dbRef = firebase.database().ref(`tenders/${key}`);
 	dbRef.set(valueCopy, () => {
 		dispatch({

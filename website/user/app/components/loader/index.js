@@ -1,6 +1,6 @@
 /**
  * @author: dharmik
- * @since: Sun Mar 18 2018 16:49:01 GMT+0530 (India Standard Time)
+ * @since: Sun Mar 18 2018 19:57:00 GMT+0530 (India Standard Time)
  * @file: index.js
  *
  * @copyright: KNOLSKAPE Solutions Pvt Ltd
@@ -12,6 +12,6 @@
  *
  **/
 
-import Header from './Header';
+import Loader from './Loader';
 
-export default Header;
+export default Loader;

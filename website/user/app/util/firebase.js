@@ -9,6 +9,8 @@ const initFirebaseDB = () => {
 		storageBucket: '',
 		messagingSenderId: '488105138922'
 
+		// Testing
+
 		// apiKey: 'AIzaSyDH5ARr37bbsQ4Ao-UZu6iYdi6lpROehuw',
 		// authDomain: 'tender-data-testing.firebaseapp.com',
 		// databaseURL: 'https://tender-data-testing.firebaseio.com',
